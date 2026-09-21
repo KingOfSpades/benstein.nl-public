@@ -660,6 +660,41 @@ body {
   text-underline-offset: 3px;
 }
 
+/* ---- Touch screens ----
+   A 10px superscript is a miserable tap target. Give the marker an
+   invisible finger-sized hit area, make the close button bigger, and let
+   non-link triggers be opened by tapping the word itself. */
+@media (hover: none) {
+  .pop-marker {
+    position: relative;
+    font-size: 0.85em;
+    padding: 0 0.2em;
+  }
+
+  .pop-marker::after {
+    content: "";
+    position: absolute;
+    top: -0.8rem;
+    right: -0.4rem;
+    bottom: -0.8rem;
+    left: -0.4rem;
+  }
+
+  .pop-slot--inline.is-tappable > :not(.pop-marker) {
+    cursor: pointer;
+  }
+
+  .popover-head {
+    padding: 0.25rem 0.25rem 0.25rem 0.65rem;
+  }
+
+  .popover-close {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+}
+
 /* --- The bubble itself (appended to <body>, positioned by JS) --- */
 .popover {
   --accent: var(--color-accent);

@@ -391,6 +391,24 @@
       slot.addEventListener("mouseleave", scheduleClose);
     }
 
+    // On touch there is no hover, and the marker is a tiny target. Triggers
+    // that aren't links have nowhere to navigate to, so let the whole word
+    // be tapped. Real links keep their tap for the link itself.
+    var isLink = trigger.tagName === "A" && trigger.hasAttribute("href");
+    if (!canHover && !isLink) {
+      slot.classList.add("is-tappable");
+      trigger.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var index = indexOfTrigger(trigger);
+        if (index !== -1) {
+          closeFrom(index);
+        } else {
+          open(trigger, marker, slot);
+        }
+      });
+    }
+
     // Keyboard: tabbing onto the link reveals its popover.
     slot.addEventListener("focusin", function (event) {
       if (!isKeyboardFocus(event.target)) return;
