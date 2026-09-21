@@ -31,25 +31,57 @@
         <h1 class="name" data-text="*MEMENTO MORI*">*MEMENTO MORI*</h1>
         <h1 class="name-text" data-text="Christi∆n">Christian</h1>
         <p class="tagline">
-          Consuming API's and deploying infra since Stardate ~44895. Talk
-          <code>.md</code> to me.
+          Consuming APIs and deploying infra since
+          <span
+            data-popover-label="Stardate 44895"
+            data-popover-ref="#pop-stardate"
+            >Stardate ~44895</span
+          >. Talk
+          <code data-popover-label="Markdown" data-popover-ref="#pop-markdown"
+            >.md</code
+          >
+          to me.
         </p>
         <p class="bio">
           <a
             href="https://www.massdriver.cloud/blogs/devops-is-bullshit"
             data-popover-label="DevOps"
-            data-popover="A job title that means five different things depending on who is hiring. Massdriver put it better than I could: <em>DevOps is bullshit</em> &mdash; it was supposed to be a culture, not a team you throw tickets at."
+            data-popover-ref="#pop-devops"
             >DevOps</a
           >
-          · Cloud · Platform + Engineer; pick your flavor. Open source
-          enthusiast and advocate in training. Big beliver in Digital
-          Sovereignty.
-          <A
+          ·
+          <span
+            data-popover-label="Evolution of Ops"
+            data-popover-size="wide"
+            data-popover-ref="#pop-evolution"
+            >Cloud · Platform + Engineer</span
+          >; pick your flavor.
+          <a
+            href="https://opensource.org/osd"
+            data-popover-label="Open Source"
+            data-popover-ref="#pop-opensource"
+            >Open source</a
+          >
+          enthusiast and advocate in training. Big believer in
+          <a
+            href="https://publiccode.eu/"
+            data-popover-label="Digital Sovereignty"
+            data-popover-ref="#pop-sovereignty"
+            >Digital Sovereignty</a
+          >.
+          <a
             href="https://laufwerk.xyz/"
             data-popover-label="laufwerk.xyz"
-            data-popover="Write-ups, guides and notes on the things I break and then fix. Mostly homelab, self-hosting and infrastructure-as-code."
+            data-popover="It's a blag. I always dream of doing things in other media but writing remains."
             >Sharing what I know</a
-          >, because gatekeeping is boring.
+          >, because
+          <a
+            href="https://xkcd.com/1053/"
+            data-popover-label="Gatekeeping"
+            data-popover="Everyone was new once. Today around ten thousand people learn it for the first time. Don't be the one who ruins it for them."
+            >gatekeeping</a
+          >
+          is boring.
         </p>
       </header>
 
@@ -61,7 +93,7 @@
           rel="noopener noreferrer"
           aria-label="Visit my Blog"
           data-popover-label="Blog"
-          data-popover="<code>laufwerk.xyz</code> my blog of human generated content"
+          data-popover="<code>laufwerk.xyz</code>. My blog of human-generated content."
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -107,7 +139,7 @@
           rel="noopener noreferrer"
           aria-label="View my GitHub profile"
           data-popover-label="GitHub"
-          data-popover="Its just code. Planning to move to Codeberg in the future."
+          data-popover="It's just code. Planning to move to Codeberg in the future."
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -146,7 +178,7 @@
             <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
             <line x1="12" y1="22.08" x2="12" y2="12" />
           </svg>
-          3D Design's</a
+          3D Designs</a
         >
       </nav>
     </main>
@@ -159,6 +191,117 @@
         >
       </code>
     </footer>
+    <!-- ==================================================================
+         POPOVER CONTENT
+         Anything in here is shown by the link pointing at it with
+         data-popover-ref="#id". It's plain HTML, so links work — and a link
+         in here can carry its own data-popover / data-popover-ref to open
+         another popover on top of it.
+         Short, text-only popovers can stay inline as data-popover="...".
+         ================================================================== -->
+    <template id="pop-devops">
+      I understand that we need shared language to communicate, but this term
+      (name?) is just plain wrong. Massdriver said it better than I can in
+      <a
+        href="https://www.massdriver.cloud/blogs/devops-is-bullshit"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-popover-label="DevOps is bullshit"
+        data-popover-ref="#pop-devops-article"
+        >DevOps is bullshit</a
+      >.
+    </template>
+
+    <template id="pop-devops-article">
+      "When was the last time you saw a product manager high-five the ops person and say, ‘fast fucking autoscaler!’?"
+    </template>
+
+    <template id="pop-sovereignty">
+      When I started this career I couldn't wait to have everything out of the
+      house and in the Cloud. Now my
+      <span
+        data-popover-label="Homelab"
+        data-popover-size="wide"
+        data-popover-ref="#pop-lab"
+        >home infra/lab</span
+      >
+      is one of my biggest joys.
+    </template>
+
+    <template id="pop-stardate">
+      TNG-era stardate, which drops this one somewhere around '91 in Earth
+      dates. Do with that what you will. The
+      <a
+        href="https://memory-alpha.fandom.com/wiki/Stardate"
+        target="_blank"
+        rel="noopener noreferrer"
+        >system itself</a
+      >
+      was never built to survive this much scrutiny.
+    </template>
+
+    <template id="pop-markdown">
+      Someone sent me a <code>docx</code> recently via LinkedIn. **Bold**.
+    </template>
+
+    <template id="pop-opensource">
+      I had this stupid experience a while back where my Fusion 360
+      <i>free</i> account stopped working and I realized 'Holy moly! I invested
+      like hours of learning this software and now I can't use it to make
+      models anymore
+      <span data-popover-label="The price" data-popover-ref="#pop-paying"
+        >without paying $$$</span
+      >'. Anyway, it made me realize again that even if the software is free we
+      still pay something for it (in my case all the time I spent learning the
+      tool).
+    </template>
+
+    <template id="pop-paying">
+      The free tier still exists and there are open alternatives
+      (<a href="https://www.freecad.org/" target="_blank" rel="noopener noreferrer"
+        >FreeCAD</a
+      >), but the friction to switch is a ...
+    </template>
+
+    <template id="pop-evolution">
+      <a
+        class="popover-figure"
+        href="assets/eoo.jpg"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="assets/eoo.jpg"
+          alt="Comic: the Evolution of Operations, from single-celled Ops, born in the swamps of Perl, via DevOps, DevSecOps and DevSecMLOps, to TriceratOps, which does not care about your org structure and is vulnerable only to direct meteor strikes."
+        />
+      </a>
+      <span class="popover-caption"
+        >Comic by @acloudguru. Click for the readable version.</span
+      >
+    </template>
+
+    <template id="pop-lab">
+      <a
+        class="popover-figure"
+        href="https://mermaid.ink/img/pako:eJyFjTFvgzAQhf8KuqmVXBQMBuM1VZS9W0sHp1wBFdvI2FFTxH-vAyVDlnrx3XvvezfBh6kRBJxR66cTOlnpKBrRRfsW5fBWwfJHD8qMrr88VvC-BQ5eb-OLOaPFrlkErzujV5yETKj4g1YjSOSWvzdX6h_7vuFoFPbytCSBQGO7GoSzHgkotEpeV5iuLRW4FhVWIMJYS_sV-vUcmEHqV2PUhlnjmxbEp-zHsPmhlg6fO9lYqW6qRV2j3RuvHQhaFEsJiAm-QSRlHudJztOcZQVnCcsJXEBkLE4TmnHOGCt3nM4Efparu5gXWRlekVFGOUvL-RdXFIML?type=png"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://mermaid.ink/img/pako:eJyFjTFvgzAQhf8KuqmVXBQMBuM1VZS9W0sHp1wBFdvI2FFTxH-vAyVDlnrx3XvvezfBh6kRBJxR66cTOlnpKBrRRfsW5fBWwfJHD8qMrr88VvC-BQ5eb-OLOaPFrlkErzujV5yETKj4g1YjSOSWvzdX6h_7vuFoFPbytCSBQGO7GoSzHgkotEpeV5iuLRW4FhVWIMJYS_sV-vUcmEHqV2PUhlnjmxbEp-zHsPmhlg6fO9lYqW6qRV2j3RuvHQhaFEsJiAm-QSRlHudJztOcZQVnCcsJXEBkLE4TmnHOGCt3nM4Efparu5gXWRlekVFGOUvL-RdXFIML?type=png"
+          alt="Venn diagram of three overlapping sets, Cheap (mostly), Fun and Sovereign, where the overlap of all three is labelled Homelab."
+        />
+      </a>
+      <span class="popover-caption"
+        ><a
+          href="https://mermaid.ai/live/edit#pako:eJyFjTFvgzAQhf8KuqmVXBQMBuM1VZS9W0sHp1wBFdvI2FFTxH-vAyVDlnrx3XvvezfBh6kRBJxR66cTOlnpKBrRRfsW5fBWwfJHD8qMrr88VvC-BQ5eb-OLOaPFrlkErzujV5yETKj4g1YjSOSWvzdX6h_7vuFoFPbytCSBQGO7GoSzHgkotEpeV5iuLRW4FhVWIMJYS_sV-vUcmEHqV2PUhlnjmxbEp-zHsPmhlg6fO9lYqW6qRV2j3RuvHQhaFEsJiAm-QSRlHudJztOcZQVnCcsJXEBkLE4TmnHOGCt3nM4Efparu5gXWRlekVFGOUvL-RdXFIML"
+          target="_blank"
+          rel="noopener noreferrer"
+          >I made this with mermaid.js</a
+        ></span
+      >
+    </template>
+
     <script src="popover.js" defer></script>
   </body>
 </html>

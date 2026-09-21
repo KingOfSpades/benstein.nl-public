@@ -32,6 +32,12 @@
   --dracula-pink: #ff79c6;
   --dracula-green: #50fa7b;
   --dracula-cyan: #8be9fd;
+  --dracula-orange: #ffb86c;
+  --dracula-yellow: #f1fa8c;
+  --dracula-red: #ff5555;
+
+  /* Popover / tooltip */
+  --color-tip-bg: #0a0a0a;
 }
 
 html {
@@ -549,80 +555,304 @@ body {
   z-index: -1;
 }
 
-/* Blog - Purple */
-.link-item:nth-child(1) {
-  color: var(--dracula-purple);
-  border: 2px solid var(--dracula-purple);
+/* Per-link accent colour.
+   Targets the direct children of .links so it keeps working after the
+   popover script wraps each link in a .pop-slot.
+   Adding a link? Add one more --accent line. */
+.links > :nth-child(1) {
+  --accent: var(--dracula-purple);
 }
-.link-item:nth-child(1):after {
-  background-color: var(--dracula-purple);
+.links > :nth-child(2) {
+  --accent: var(--dracula-pink);
 }
-.link-item:nth-child(1):hover,
-.link-item:nth-child(1):focus {
-  background-color: var(--dracula-purple);
-  color: var(--color-bg);
+.links > :nth-child(3) {
+  --accent: var(--dracula-green);
 }
-.link-item:nth-child(1):hover:after,
-.link-item:nth-child(1):focus:after {
-  background-color: transparent;
-  border: 2px solid var(--dracula-purple);
+.links > :nth-child(4) {
+  --accent: var(--dracula-cyan);
 }
-
-/* LinkedIn - Pink */
-.link-item:nth-child(2) {
-  color: var(--dracula-pink);
-  border: 2px solid var(--dracula-pink);
+.links > :nth-child(5) {
+  --accent: var(--dracula-orange);
 }
-.link-item:nth-child(2):after {
-  background-color: var(--dracula-pink);
+.links > :nth-child(6) {
+  --accent: var(--dracula-yellow);
 }
-.link-item:nth-child(2):hover,
-.link-item:nth-child(2):focus {
-  background-color: var(--dracula-pink);
-  color: var(--color-bg);
-}
-.link-item:nth-child(2):hover:after,
-.link-item:nth-child(2):focus:after {
-  background-color: transparent;
-  border: 2px solid var(--dracula-pink);
+.links > :nth-child(7) {
+  --accent: var(--dracula-red);
 }
 
-/* GitHub - Green */
-.link-item:nth-child(3) {
-  color: var(--dracula-green);
-  border: 2px solid var(--dracula-green);
+.link-item {
+  color: var(--accent, var(--color-accent));
+  border: 2px solid var(--accent, var(--color-accent));
 }
-.link-item:nth-child(3):after {
-  background-color: var(--dracula-green);
+.link-item:after {
+  background-color: var(--accent, var(--color-accent));
 }
-.link-item:nth-child(3):hover,
-.link-item:nth-child(3):focus {
-  background-color: var(--dracula-green);
+.link-item:hover,
+.link-item:focus {
+  background-color: var(--accent, var(--color-accent));
   color: var(--color-bg);
 }
-.link-item:nth-child(3):hover:after,
-.link-item:nth-child(3):focus:after {
+.link-item:hover:after,
+.link-item:focus:after {
   background-color: transparent;
-  border: 2px solid var(--dracula-green);
+  border: 2px solid var(--accent, var(--color-accent));
 }
 
-/* 3D Design's - Cyan */
-.link-item:nth-child(4) {
-  color: var(--dracula-cyan);
-  border: 2px solid var(--dracula-cyan);
+/* ==========================================================================
+   POPOVERS
+   Add data-popover="..." to any link and popover.js does the rest.
+   Nav buttons show theirs on hover/focus; inline links also get a small
+   [?] footnote marker you can tap. Links inside a popover can have a
+   data-popover of their own — those stack on top, one accent colour deeper.
+   ========================================================================== */
+
+/* --- Wrapper injected around a link that has a popover --- */
+.pop-slot {
+  position: relative;
 }
-.link-item:nth-child(4):after {
-  background-color: var(--dracula-cyan);
+
+.pop-slot--inline {
+  display: inline;
 }
-.link-item:nth-child(4):hover,
-.link-item:nth-child(4):focus {
-  background-color: var(--dracula-cyan);
-  color: var(--color-bg);
+
+.pop-slot--button {
+  display: inline-flex;
 }
-.link-item:nth-child(4):hover:after,
-.link-item:nth-child(4):focus:after {
+
+/* --- The [?] marker (inline links only; the nav buttons hover on their own).
+       Inside a popover it picks up that popover's accent colour. --- */
+.pop-marker {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 700;
+  vertical-align: super;
+  margin-left: 1px;
+  padding: 0;
+  line-height: 1;
+  color: var(--accent, var(--color-accent));
   background-color: transparent;
-  border: 2px solid var(--dracula-cyan);
+  border: 0;
+  cursor: help;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.pop-marker:focus-visible {
+  outline: 2px solid var(--accent, var(--color-accent));
+  outline-offset: 2px;
+}
+
+/* Hovering brightens the marker rather than recolouring it, so each
+   trigger keeps its own accent. */
+.pop-slot--inline:hover .pop-marker,
+.pop-marker[aria-expanded="true"] {
+  color: var(--color-text);
+  transform: scale(1.15);
+}
+
+/* Triggers that aren't links (a word, a bit of <code>) get a dotted
+   underline so it's clear there's something to hover. */
+.pop-slot--inline > :not(a):not(.pop-marker) {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+/* --- The bubble itself (appended to <body>, positioned by JS) --- */
+.popover {
+  --accent: var(--color-accent);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 24px));
+  max-height: 60vh;
+  background-color: var(--color-tip-bg);
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.55);
+  text-align: left;
+  animation: popover-in 0.16s ease-out;
+}
+
+.popover.is-closing {
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  pointer-events: none;
+}
+
+/* data-popover-size="wide" — room for an image */
+.popover.is-wide {
+  max-width: min(440px, calc(100vw - 24px));
+  max-height: 76vh;
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header bar: > label ............ [x] */
+.popover-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+  padding: 0.3rem 0.3rem 0.3rem 0.65rem;
+  background-color: var(--accent);
+}
+
+.popover-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popover-label::before {
+  content: "> ";
+}
+
+.popover-close {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--color-bg);
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.popover-close:hover,
+.popover-close:focus-visible {
+  background-color: var(--color-bg);
+  color: var(--accent);
+  outline: none;
+}
+
+.popover-body {
+  padding: 0.65rem 0.8rem 0.75rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.popover-body p + p {
+  margin-top: 0.5rem;
+}
+
+.popover-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.popover-body a:hover,
+.popover-body a:focus-visible {
+  color: var(--color-text);
+}
+
+/* An external link inside a popover gets a small ↗, so it's obvious that
+   clicking it leaves the page (as opposed to opening another popover). */
+.popover-body a[target="_blank"]::after {
+  content: "\2197";
+  font-size: 0.85em;
+  margin-left: 0.15em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Images: full bleed inside the bubble, click to open the original */
+.popover-figure,
+.popover-body a.popover-figure {
+  display: block;
+  text-decoration: none;
+  line-height: 0;
+}
+
+.popover-body a.popover-figure::after {
+  content: none;
+}
+
+.popover-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--accent);
+}
+
+.popover-caption {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.popover-body code {
+  background-color: var(--color-code-bg);
+  padding: 0.1em 0.35em;
+  color: var(--color-accent);
+}
+
+/* Arrow pointing back at the link */
+.popover-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-tip-bg);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.popover.is-above .popover-arrow {
+  bottom: -7px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+.popover.is-below .popover-arrow {
+  top: -7px;
+  background-color: var(--accent);
+  border-left: 2px solid var(--accent);
+  border-top: 2px solid var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover,
+  .popover.is-closing {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* Responsive adjustments */
@@ -643,6 +873,17 @@ body {
     width: 100%;
     max-width: 220px;
     margin: 0 auto;
+  }
+
+  .pop-slot--button {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .pop-slot--button .link-item {
+    width: 100%;
+    max-width: none;
   }
 
   .tagline {
